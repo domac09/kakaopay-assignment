@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,13 +50,31 @@ public class AgreementSupportService {
                 .sorted(Comparator.comparingLong(Support::getLimitAmount)
                         .reversed()
                         .thenComparing((o1, o2) -> {
-                            double v1 = (o1.getRate().getMinimum() + o1.getRate().getMaximum()) / 2.0D;
-                            double v2 = (o2.getRate().getMinimum() + o2.getRate().getMaximum()) / 2.0D;
+                            double v1 = getAverageRate(o1);
+                            double v2 = getAverageRate(o2);
                             return Double.compare(v1, v2);
                         })
                 )
                 .map(support -> support.getInstitution().getName())
                 .limit(size)
                 .collect(Collectors.toList());
+    }
+
+    //이차보전 컬럼에서 보전 비율이 가장 작은 추천 기관명을 출력하는 API 개발
+    public List<String> findBySuggestedInstitutionSmallestRate() {
+        Map<Double, List<Support>> collect = supportRepository.findAll().stream()
+                .collect(Collectors.groupingBy(this::getAverageRate))
+                .entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        Double min = collect.keySet().stream().min(Comparator.comparingDouble(o -> o)).orElse(0D);
+
+        return collect.get(min).stream()
+                .map(Support::getSuggestedInstitution)
+                .collect(Collectors.toList());
+    }
+
+    private double getAverageRate(Support support) {
+        return (support.getRate().getMinimum() + support.getRate().getMaximum()) / 2.0D;
     }
 }

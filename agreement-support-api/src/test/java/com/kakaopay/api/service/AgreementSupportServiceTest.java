@@ -124,4 +124,15 @@ class AgreementSupportServiceTest {
 
         assertThat(expectedList, is(limitAmountOrderByDesc));
     }
+
+    @Test
+    void findBySuggestedInstitutionSmallestRate(){
+        supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
+
+        List<String> bySuggestedInstitutionSmallestRate = agreementSupportService.findBySuggestedInstitutionSmallestRate();
+
+        List<String> expectedList = Arrays.asList("광명시", "거제시, 경남신용보증재단");
+
+        assertThat(expectedList, is(bySuggestedInstitutionSmallestRate));
+    }
 }
