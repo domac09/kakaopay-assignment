@@ -1,6 +1,5 @@
 package com.kakaopay.api.service;
 
-import com.kakaopay.api.domain.Institution;
 import com.kakaopay.api.domain.Support;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +32,7 @@ public class SupportResponse {
         this.reception = reception;
     }
 
-    public static SupportResponse toEntity(Support support, Institution institution) {
+    public static SupportResponse toEntity(Support support) {
         DecimalFormat df = new DecimalFormat("#,###");
         return SupportResponse.builder()
                 .institute(support.getSuggestedInstitution())
@@ -41,7 +40,7 @@ public class SupportResponse {
                 .mgmt(support.getManagement())
                 .rate(support.getRate().getMinimum() == support.getRate().getMaximum() ? support.getRate().getMaximum() + "%" : support.getRate().getMinimum() + "%~" + support.getRate().getMaximum() + "%")
                 .reception(support.getReception())
-                .region(institution.getName())
+                .region(support.getInstitution().getName())
                 .target(support.getSupportTarget())
                 .usage(support.getUseType().getType())
                 .build();

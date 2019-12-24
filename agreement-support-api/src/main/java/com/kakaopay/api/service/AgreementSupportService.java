@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class AgreementSupportService {
         Institution institution = institutionRepository.findByName(region).orElse(Institution.builder().build());
         List<Support> supports = supportRepository.findByList(institution.getName());
         return supports.stream()
-                .map(support -> SupportResponse.toEntity(support, institution))
+                .map(SupportResponse::toEntity)
                 .collect(Collectors.toList());
     }
 
@@ -42,7 +43,19 @@ public class AgreementSupportService {
         supports.forEach(support -> support.update(SupportRequest.toEntity(request, institution)));
     }
 
-    // search by institute
-
     // desc sort limit
+    public List<String> findByLimitAmountOrderByDesc(int size) {
+        return supportRepository.findAll().stream()
+                .sorted(Comparator.comparingLong(Support::getLimitAmount)
+                        .reversed()
+                        .thenComparing((o1, o2) -> {
+                            double v1 = (o1.getRate().getMinimum() + o1.getRate().getMaximum()) / 2.0D;
+                            double v2 = (o2.getRate().getMinimum() + o2.getRate().getMaximum()) / 2.0D;
+                            return Double.compare(v1, v2);
+                        })
+                )
+                .map(support -> support.getInstitution().getName())
+                .limit(size)
+                .collect(Collectors.toList());
+    }
 }
