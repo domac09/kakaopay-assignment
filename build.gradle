@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-def javaProjects = [project(':aggreement-support-api')]
+def javaProjects = [project(':agreement-support-api')]
 
 configure(javaProjects) {
     apply plugin: 'java'
@@ -38,7 +38,7 @@ configure(javaProjects) {
             exclude module: 'junit'
         }
 
-        testImplementation('org.junit.jupiter:junit-jupiter-api')
+        testImplementation('org.junit.jupiter:junit-jupiter-com.kakaopay.api')
         testCompile('org.junit.jupiter:junit-jupiter-params')
         testRuntime('org.junit.jupiter:junit-jupiter-engine')
         testCompile('org.mockito:mockito-core')
