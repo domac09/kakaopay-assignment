@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -44,14 +45,14 @@ class AgreementSupportServiceTest {
     }
 
     @Test
-    void insert_data() {
+    void insert() {
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
         List<Support> all = supportRepository.findAll();
 
         assertThat(all.size(), is(2));
         assertAll("list value assertion..",
-                ()->{
+                () -> {
                     List<Support> supports = supportRepository.findByList("강릉시");
                     assertEquals(1, supports.size());
                     Support support = supports.stream().findFirst().orElseThrow(() -> new IllegalStateException("empty values.."));
@@ -59,7 +60,7 @@ class AgreementSupportServiceTest {
                     assertEquals(3.0D, support.getRate().getMinimum());
                     assertEquals(3.0D, support.getRate().getMaximum());
                 },
-                ()->{
+                () -> {
                     List<Support> supports = supportRepository.findByList("횡성군");
                     assertEquals(1, supports.size());
                     Support support = supports.stream().findFirst().orElseThrow(() -> new IllegalStateException("empty values.."));
@@ -78,12 +79,32 @@ class AgreementSupportServiceTest {
 
         assertThat(supportResponses.size(), is(1));
         assertAll("value assertion..",
-                ()->{
+                () -> {
                     SupportResponse support = supportResponses.stream().findFirst().orElseThrow(() -> new IllegalStateException("empty values.."));
                     assertEquals(UseType.FACILITY.getType(), support.getUsage());
                     assertEquals("4.0%~6.33%", support.getRate());
                     assertEquals("100,000,000 이내", support.getLimit());
                 });
 
+    }
+
+    @Test
+    void update() {
+        supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
+
+        SupportRequest supportRequest = new Gson().fromJson("{ \"region\": \"횡성군\", \"target\": \"신의 선택을 받은 자\", \"usage\": \"운전 및 시설\", \"limit\" : \"1000\", \"maximumRate\": \"6.33\", \"minimumRate\": \"4.00\",\"institute\": \"횡성군\", \"mgmt\": \"원주지점\", \"reception\": \"신이 지정한 영업점\" }", SupportRequest.class);
+
+        agreementSupportService.update(supportRequest);
+
+        List<SupportResponse> supportResponses = agreementSupportService.search("횡성군");
+
+        List<SupportResponse> expectedResponses = Collections.singletonList(new Gson().fromJson("{\"region\":\"횡성군\",\"target\":\"신의 선택을 받은 자\",\"limit\":\"1,000 이내\",\"rate\":\"4.0%~6.33%\",\"usage\":\"운전 및 시설\",\"institute\":\"횡성군\",\"mgmt\":\"원주지점\",\"reception\":\"신이 지정한 영업점\"}", SupportResponse.class));
+
+        assertAll("update values test", () -> {
+            assertEquals(expectedResponses.get(0).getTarget(), supportResponses.get(0).getTarget());
+            assertEquals(expectedResponses.get(0).getUsage(), supportResponses.get(0).getUsage());
+            assertEquals(expectedResponses.get(0).getReception(), supportResponses.get(0).getReception());
+            assertEquals(expectedResponses.get(0).getLimit(), supportResponses.get(0).getLimit());
+        });
     }
 }

@@ -6,11 +6,13 @@ import com.kakaopay.api.domain.Support;
 import com.kakaopay.api.domain.SupportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AgreementSupportService {
 
@@ -18,13 +20,13 @@ public class AgreementSupportService {
     private final InstitutionRepository institutionRepository;
 
     //insert
-    public void insert(SupportRequest request){
+    public void insert(SupportRequest request) {
         Institution institution = institutionRepository.findByName(request.getRegion()).orElse(Institution.builder().build());
         supportRepository.save(SupportRequest.toEntity(request, institution));
     }
 
     //search & list
-    public List<SupportResponse> search(String region){
+    public List<SupportResponse> search(String region) {
         Institution institution = institutionRepository.findByName(region).orElse(Institution.builder().build());
         List<Support> supports = supportRepository.findByList(institution.getName());
         return supports.stream()
@@ -33,6 +35,12 @@ public class AgreementSupportService {
     }
 
     //update
+    public void update(SupportRequest request) {
+        Institution institution = institutionRepository.findByName(request.getRegion()).orElse(Institution.builder().build());
+        List<Support> supports = supportRepository.findByList(institution.getName());
+
+        supports.forEach(support -> support.update(SupportRequest.toEntity(request, institution)));
+    }
 
     // search by institute
 

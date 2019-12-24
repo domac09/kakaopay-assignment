@@ -35,4 +35,15 @@ public class Support extends BaseEntity {
     private String management;
 
     private String reception;
+
+    public void update(Support support){
+        this.institution = support.institution;
+        this.supportTarget = support.supportTarget;
+        this.useType = support.useType;
+        this.limitAmount = support.limitAmount;
+        this.rate = support.rate;
+        this.suggestedInstitution = support.suggestedInstitution;
+        this.management = support.management;
+        this.reception = support.reception;
+    }
 }
