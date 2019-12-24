@@ -32,13 +32,13 @@ configure(javaProjects) {
         implementation('org.springframework.boot:spring-boot-starter-web')
 
         compileOnly('org.projectlombok:lombok')
-        runtimeOnly('com.h2database:h2')
+        runtime('com.h2database:h2:1.4.197')
 
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude module: 'junit'
         }
 
-        testImplementation('org.junit.jupiter:junit-jupiter-com.kakaopay.api')
+        testImplementation('org.junit.jupiter:junit-jupiter-api')
         testCompile('org.junit.jupiter:junit-jupiter-params')
         testRuntime('org.junit.jupiter:junit-jupiter-engine')
         testCompile('org.mockito:mockito-core')
