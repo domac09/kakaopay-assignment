@@ -1,0 +1,3 @@
+rootProject.name = 'kakaopay-assignment'
+include 'aggreement-support-api'
+
