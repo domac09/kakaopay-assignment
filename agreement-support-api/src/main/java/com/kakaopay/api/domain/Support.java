@@ -1,14 +1,15 @@
 package com.kakaopay.api.domain;
 
 import com.kakaopay.api.domain.commons.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Support extends BaseEntity {
     @Id
@@ -24,7 +25,7 @@ public class Support extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private UseType useType;
 
-    private Long limitAmount;
+    private long limitAmount;
 
     @Embedded
     private Rate rate;
