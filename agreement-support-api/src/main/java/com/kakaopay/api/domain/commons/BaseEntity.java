@@ -1,4 +1,4 @@
-package com.kakaopay.api.domain.commons.auditing;
+package com.kakaopay.api.domain.commons;
 
 import lombok.Getter;
 import org.hibernate.envers.AuditOverride;

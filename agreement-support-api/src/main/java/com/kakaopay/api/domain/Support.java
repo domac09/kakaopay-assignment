@@ -1,14 +1,11 @@
 package com.kakaopay.api.domain;
 
-import com.kakaopay.api.domain.commons.auditing.BaseEntity;
+import com.kakaopay.api.domain.commons.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -18,21 +15,23 @@ public class Support extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String institutionCode;
+    @OneToOne
+    @JoinColumn(name ="institution_id", foreignKey = @ForeignKey(name = "FK_SUPPORT_INSTITUTION"))
+    private Institution institution;
 
     private String supportTarget;
 
-    private String useType;
+    @Enumerated(value = EnumType.STRING)
+    private UseType useType;
 
-    private double maximum;
+    private Long limitAmount;
 
-    private double minimum;
-
-    private String secondaryConservation;
+    @Embedded
+    private Rate rate;
 
     private String suggestedInstitution;
 
     private String management;
 
-    private String distributor;
+    private String reception;
 }
