@@ -14,7 +14,7 @@ buildscript {
     }
 }
 
-def javaProjects = [project(':agreement-support-api')]
+def javaProjects = [project(':agreement-support-api'), project(':agreement-support-batch')]
 
 configure(javaProjects) {
     apply plugin: 'java'
@@ -29,10 +29,9 @@ configure(javaProjects) {
     }
     dependencies {
         implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-        implementation('org.springframework.boot:spring-boot-starter-web')
 
         compileOnly('org.projectlombok:lombok')
-        runtime('com.h2database:h2:1.4.197')
+        runtime('com.h2database:h2')
 
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude module: 'junit'
