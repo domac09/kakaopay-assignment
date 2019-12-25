@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface SupportRepository extends JpaRepository<Support, Long> {
 
-    @Query("select support from Support support join support.institution institution where institution.name=:region")
+    @Query("select support from Support support join support.region region where region.name=:region")
     List<Support> findByList(@Param("region") String region);
 }

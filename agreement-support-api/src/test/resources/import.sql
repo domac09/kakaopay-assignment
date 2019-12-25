@@ -1,4 +1,4 @@
-insert into INSTITUTION (CODE, NAME) values
+insert into REGION (CODE, NAME) values
 ('A0','강릉시'),
 ('A1','강원도'),
 ('A2','거제시'),

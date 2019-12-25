@@ -1,0 +1,48 @@
+GET localhost:5000/v1/supports/limit?size=3
+Accept: application/json
+
+###
+PUT localhost:5000/v1/supports
+Content-Type: application/json
+
+{
+  "region": "강릉시",
+  "target": "강릉시 소재 중소기업으로서 강릉시장이 추천한 자111111",
+  "usage": "운전",
+  "limit": "0",
+  "maximumRate": "5.00",
+  "minimumRate": "3.00",
+  "institute": "강릉시",
+  "mgmt": "강릉지점",
+  "reception": "강릉시 소재 영업점"
+}
+
+###
+GET localhost:5000/v1/supports?region=강릉시
+Accept: application/json
+
+###
+GET localhost:5000/v1/supports?region=
+Accept: application/json
+
+###
+GET localhost:5000/v1/supports
+Accept: application/json
+
+###
+POST localhost:5000/v1/supports
+Content-Type: application/json
+
+{
+  "region": "강릉시",
+  "target": "이성호가 추천한 자",
+  "usage": "운전",
+  "limit": "0",
+  "maximumRate": "3.00",
+  "minimumRate": "3.00",
+  "institute": "강릉시",
+  "mgmt": "강릉지점",
+  "reception": "강릉시 소재 영업점"
+}
+
+###

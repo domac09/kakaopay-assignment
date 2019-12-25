@@ -33,16 +33,26 @@ public class SupportResponse {
     }
 
     public static SupportResponse toEntity(Support support) {
-        DecimalFormat df = new DecimalFormat("#,###");
         return SupportResponse.builder()
                 .institute(support.getSuggestedInstitution())
-                .limit(support.getLimitAmount() == 0 ? "추천금액 이내" : df.format(support.getLimitAmount()) + " 이내")
+                .limit(convertLimitToString(support))
                 .mgmt(support.getManagement())
-                .rate(support.getRate().getMinimum() == support.getRate().getMaximum() ? support.getRate().getMaximum() + "%" : support.getRate().getMinimum() + "%~" + support.getRate().getMaximum() + "%")
+                .rate(convertRateToString(support))
                 .reception(support.getReception())
-                .region(support.getInstitution().getName())
+                .region(support.getRegion().getName())
                 .target(support.getSupportTarget())
                 .usage(support.getUseType().getType())
                 .build();
+    }
+
+    private static String convertRateToString(Support support) {
+        return support.getRate().getMinimum() == support.getRate().getMaximum() ?
+                support.getRate().getMaximum() + "%" :
+                support.getRate().getMinimum() + "%~" + support.getRate().getMaximum() + "%";
+    }
+
+    private static String convertLimitToString(Support support) {
+        DecimalFormat df = new DecimalFormat("#,###");
+        return support.getLimitAmount() == 0 ? "추천금액 이내" : df.format(support.getLimitAmount()) + " 이내";
     }
 }

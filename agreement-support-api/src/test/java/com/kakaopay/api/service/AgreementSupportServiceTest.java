@@ -18,8 +18,7 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
@@ -92,6 +91,15 @@ class AgreementSupportServiceTest {
     }
 
     @Test
+    void searchByNull() {
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
+                    List<SupportResponse> supportResponses = agreementSupportService.search("");
+                });
+    }
+
+    @Test
     void update() {
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
@@ -111,7 +119,7 @@ class AgreementSupportServiceTest {
         });
     }
 
-//    지원한도 컬럼에서 지원금액으로 내림차순 정렬(지원금액이 동일하면 이차보전 평균 비율이 적은 순서)하여 특정 개수만 출력하는 API 개발
+    //    지원한도 컬럼에서 지원금액으로 내림차순 정렬(지원금액이 동일하면 이차보전 평균 비율이 적은 순서)하여 특정 개수만 출력하는 API 개발
 //      입력:출력개수K
 //      출력: K 개의 지자체명 (e.g. { 강릉시, 강원도, 거제시, 경기도, 경상남도 } )
     @Test
@@ -122,11 +130,12 @@ class AgreementSupportServiceTest {
 
         List<String> expectedList = Arrays.asList("거제시", "횡성군", "광명시");
 
+        assertThat(limitAmountOrderByDesc.size(), is(3));
         assertThat(expectedList, is(limitAmountOrderByDesc));
     }
 
     @Test
-    void findBySuggestedInstitutionSmallestRate(){
+    void findBySuggestedInstitutionSmallestRate() {
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
         List<String> bySuggestedInstitutionSmallestRate = agreementSupportService.findBySuggestedInstitutionSmallestRate();

@@ -1,25 +1,13 @@
 package com.kakaopay.api.service;
 
-import com.kakaopay.api.domain.Institution;
 import com.kakaopay.api.domain.Rate;
+import com.kakaopay.api.domain.Region;
 import com.kakaopay.api.domain.Support;
 import com.kakaopay.api.domain.UseType;
 import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
-
-/**
- * {
- *     "region": "강릉시",
- *     "target": "강릉시 소재 중소기업으로서 강릉시장이 추천한 자", "usage": "운전",
- *     "limit" : "추천금액 이내",
- *     "rate": "3.00%",
- *     "institute": "강릉시",
- *     "mgmt": "강릉지점",
- *     "reception": "강릉시 소재 영업점"
- * }
- */
 
 @Getter
 public class SupportRequest {
@@ -49,9 +37,9 @@ public class SupportRequest {
         this.reception = reception;
     }
 
-    public static Support toEntity(SupportRequest supportRequest, Institution institution){
+    public static Support toEntity(SupportRequest supportRequest, Region region){
         return Support.builder()
-                .institution(institution)
+                .region(region)
                 .limitAmount(supportRequest.getLimit())
                 .rate(Rate.builder().maximum(supportRequest.getMaximumRate()).minimum(supportRequest.getMinimumRate()).build())
                 .management(supportRequest.getMgmt())

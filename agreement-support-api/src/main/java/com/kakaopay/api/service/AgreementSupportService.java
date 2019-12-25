@@ -1,12 +1,13 @@
 package com.kakaopay.api.service;
 
-import com.kakaopay.api.domain.Institution;
-import com.kakaopay.api.domain.InstitutionRepository;
+import com.kakaopay.api.domain.Region;
+import com.kakaopay.api.domain.RegionRepository;
 import com.kakaopay.api.domain.Support;
 import com.kakaopay.api.domain.SupportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,32 +20,30 @@ import java.util.stream.Collectors;
 public class AgreementSupportService {
 
     private final SupportRepository supportRepository;
-    private final InstitutionRepository institutionRepository;
+    private final RegionRepository regionRepository;
 
     //insert
     public void insert(SupportRequest request) {
-        Institution institution = institutionRepository.findByName(request.getRegion()).orElse(Institution.builder().build());
-        supportRepository.save(SupportRequest.toEntity(request, institution));
+        Region region = regionRepository.findByName(request.getRegion())
+                .orElseThrow(() -> new IllegalStateException("해당 지자체가 존재하지 않습니다."));
+        supportRepository.save(SupportRequest.toEntity(request, region));
     }
 
     //search & list
     public List<SupportResponse> search(String region) {
-        Institution institution = institutionRepository.findByName(region).orElse(Institution.builder().build());
-        List<Support> supports = supportRepository.findByList(institution.getName());
-        return supports.stream()
+        Assert.hasText(region, "Required String parameter 'region' is empty");
+        return supportRepository.findByList(region).stream()
                 .map(SupportResponse::toEntity)
                 .collect(Collectors.toList());
     }
 
     //update
     public void update(SupportRequest request) {
-        Institution institution = institutionRepository.findByName(request.getRegion()).orElse(Institution.builder().build());
-        List<Support> supports = supportRepository.findByList(institution.getName());
-
-        supports.forEach(support -> support.update(SupportRequest.toEntity(request, institution)));
+        List<Support> supports = supportRepository.findByList(request.getRegion());
+        supports.forEach(support -> support.update(SupportRequest.toEntity(request, support.getRegion())));
     }
 
-    // desc sort limit
+    // desc sort & limit
     public List<String> findByLimitAmountOrderByDesc(int size) {
         return supportRepository.findAll().stream()
                 .sorted(Comparator.comparingLong(Support::getLimitAmount)
@@ -55,7 +54,7 @@ public class AgreementSupportService {
                             return Double.compare(v1, v2);
                         })
                 )
-                .map(support -> support.getInstitution().getName())
+                .map(support -> support.getRegion().getName())
                 .limit(size)
                 .collect(Collectors.toList());
     }
@@ -67,9 +66,11 @@ public class AgreementSupportService {
                 .entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        Double min = collect.keySet().stream().min(Comparator.comparingDouble(o -> o)).orElse(0D);
+        Double minRate = collect.keySet().stream()
+                .min(Comparator.comparingDouble(o -> o))
+                .orElse(0D);
 
-        return collect.get(min).stream()
+        return collect.get(minRate).stream()
                 .map(Support::getSuggestedInstitution)
                 .collect(Collectors.toList());
     }

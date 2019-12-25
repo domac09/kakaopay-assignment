@@ -17,8 +17,8 @@ public class Support extends BaseEntity {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name ="institution_id", foreignKey = @ForeignKey(name = "FK_SUPPORT_INSTITUTION"))
-    private Institution institution;
+    @JoinColumn(name ="region_id", foreignKey = @ForeignKey(name = "FK_SUPPORT_INSTITUTION"))
+    private Region region;
 
     private String supportTarget;
 
@@ -37,7 +37,7 @@ public class Support extends BaseEntity {
     private String reception;
 
     public void update(Support support){
-        this.institution = support.institution;
+        this.region = support.region;
         this.supportTarget = support.supportTarget;
         this.useType = support.useType;
         this.limitAmount = support.limitAmount;
