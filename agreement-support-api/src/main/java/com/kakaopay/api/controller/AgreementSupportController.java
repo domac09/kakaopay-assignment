@@ -9,32 +9,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/v1/supports")
 @RequiredArgsConstructor
 public class AgreementSupportController {
 
     private final AgreementSupportService agreementSupportService;
 
-    @PostMapping("/v1/supports")
+    @PostMapping
     public void insertData(@RequestBody SupportRequest supportRequest){
         agreementSupportService.insert(supportRequest);
     }
 
-    @GetMapping("/v1/supports")
+    @GetMapping
     public List<SupportResponse> getData(@RequestParam("region") String region){
         return agreementSupportService.search(region);
     }
 
-    @PutMapping("/v1/supports")
+    @PutMapping
     public void updateData(@RequestBody SupportRequest supportRequest){
         agreementSupportService.update(supportRequest);
     }
 
-    @GetMapping("/v1/supports/limit")
+    @GetMapping("/limit")
     public List<String> getOrderByData(int size){
         return agreementSupportService.findByLimitAmountOrderByDesc(size);
     }
 
-    @GetMapping("/v1/supports/rate")
+    @GetMapping("/rate")
     public List<String> getSmallestRateData(){
         return agreementSupportService.findBySuggestedInstitutionSmallestRate();
     }

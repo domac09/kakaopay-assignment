@@ -100,7 +100,7 @@ insert into REGION (CODE, NAME) values
 ;
 
 insert into SUPPORT
-(SUPPORT_TARGET,USE_TYPE,LIMIT_AMOUNT, MINIMUM,MAXIMUM,SUGGESTED_INSTITUTION,MANAGEMENT,RECEPTION, INSTITUTION_ID) values
+(SUPPORT_TARGET,USE_TYPE,LIMIT_AMOUNT, MINIMUM,MAXIMUM,SUGGESTED_INSTITUTION,MANAGEMENT,RECEPTION, REGION_ID) values
 ('강릉시 소재 중소기업으로서 강릉시장이 추천한 자','DRIVE','0','3', '3','강릉시','강릉지점','강릉시 소재 영업점', '1'),
 ('강원도 소재 중소기업으로서 강원도지사가 추천한 자','DRIVE','800000000','3','5','강원도','춘천지점','강원도 소재 영업점', '2'),
 ('거재시 소재 중소기업(소상공인 포함)으로서 거제시장이 추천한자','DRIVE','300000000','2.5','5.0','거제시, 경남신용보증재단','거제지점','거제시, 통영시에 소재영업점', '3'),
