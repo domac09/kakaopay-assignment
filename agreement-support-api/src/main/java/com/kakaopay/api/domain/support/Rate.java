@@ -1,4 +1,4 @@
-package com.kakaopay.api.domain;
+package com.kakaopay.api.domain.support;
 
 import lombok.*;
 

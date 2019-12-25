@@ -40,7 +40,10 @@ configure(javaProjects) {
 
         compile('com.h2database:h2')
         compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
-        compile ('com.google.code.gson:gson:2.8.6')
+        compile('com.google.code.gson:gson:2.8.6')
+        implementation('com.auth0:java-jwt:3.8.3')
+        compile('commons-codec:commons-codec:1.13')
+
 
         testCompileOnly("org.projectlombok:lombok")
         testAnnotationProcessor("org.projectlombok:lombok")
@@ -59,31 +62,5 @@ configure(javaProjects) {
         test {
             useJUnitPlatform()
         }
-    }
-
-    def querydslSrcDir = 'src/main/generated'
-
-    apply plugin: "com.ewerk.gradle.plugins.querydsl"
-
-    querydsl {
-        library = "com.querydsl:querydsl-apt"
-        jpa = true
-        querydslSourcesDir = querydslSrcDir
-    }
-
-    sourceSets {
-        main {
-            java {
-                srcDirs = ['src/main/java', querydslSrcDir]
-            }
-        }
-    }
-
-    compileQuerydsl {
-        options.annotationProcessorPath = configurations.querydsl
-    }
-
-    configurations {
-        querydsl.extendsFrom compileClasspath
     }
 }

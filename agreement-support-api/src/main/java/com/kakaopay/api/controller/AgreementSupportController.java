@@ -1,8 +1,8 @@
 package com.kakaopay.api.controller;
 
-import com.kakaopay.api.service.AgreementSupportService;
-import com.kakaopay.api.service.SupportRequest;
-import com.kakaopay.api.service.SupportResponse;
+import com.kakaopay.api.service.support.AgreementSupportService;
+import com.kakaopay.api.service.support.SupportRequest;
+import com.kakaopay.api.service.support.SupportResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

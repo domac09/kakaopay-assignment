@@ -1,6 +1,6 @@
-package com.kakaopay.api.service;
+package com.kakaopay.api.service.support;
 
-import com.kakaopay.api.domain.Support;
+import com.kakaopay.api.domain.support.Support;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

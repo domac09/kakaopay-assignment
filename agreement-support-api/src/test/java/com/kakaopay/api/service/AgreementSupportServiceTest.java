@@ -1,9 +1,12 @@
 package com.kakaopay.api.service;
 
 import com.google.gson.Gson;
-import com.kakaopay.api.domain.Support;
-import com.kakaopay.api.domain.SupportRepository;
-import com.kakaopay.api.domain.UseType;
+import com.kakaopay.api.domain.support.Support;
+import com.kakaopay.api.domain.support.SupportRepository;
+import com.kakaopay.api.domain.support.UseType;
+import com.kakaopay.api.service.support.AgreementSupportService;
+import com.kakaopay.api.service.support.SupportRequest;
+import com.kakaopay.api.service.support.SupportResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
