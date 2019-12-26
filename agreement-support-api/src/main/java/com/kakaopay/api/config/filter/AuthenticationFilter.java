@@ -32,8 +32,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
 
-        if (isPermit(requestURI, EXCEPT_URIS)) {
-            if (isPermit(requestURI, PERMIT_URIS)) {
+        if (isNotPermit(requestURI, EXCEPT_URIS)) {
+            if (isNotPermit(requestURI, PERMIT_URIS)) {
                 responseUnAuthorized(response);
                 return;
             }
@@ -61,16 +61,16 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         return authKey.map(s -> s.split(" ")).orElseGet(() -> new String[0]);
     }
 
-    private boolean isPermit(String requestURI, List<String> uris) {
-        boolean isNotPermit = false;
+    private boolean isNotPermit(String requestURI, List<String> uris) {
+        boolean isPermit = false;
 
         for (String uri : uris) {
             if (ANT_PATH_MATCHER.match(uri, requestURI)) {
-                isNotPermit = true;
+                isPermit = true;
                 break;
             }
         }
-        return !isNotPermit;
+        return !isPermit;
     }
 
     private boolean isInvalidAuthKey(String scheme, String token) {

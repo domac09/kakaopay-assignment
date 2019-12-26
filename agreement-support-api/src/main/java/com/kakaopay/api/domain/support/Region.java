@@ -1,6 +1,6 @@
 package com.kakaopay.api.domain.support;
 
-import com.kakaopay.api.domain.commons.BaseEntity;
+import com.kakaopay.api.domain.commons.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Region extends BaseEntity {
+public class Region extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

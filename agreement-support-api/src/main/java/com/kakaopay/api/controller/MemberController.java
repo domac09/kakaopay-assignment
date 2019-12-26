@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/v1/members")
 @RequiredArgsConstructor
@@ -18,14 +20,16 @@ public class MemberController {
     private final AuthService authService;
 
     @PostMapping
-    public String joinMember(@RequestBody MemberDto memberDto) {
+    public TokenResponse joinMember(@RequestBody @Valid MemberDto memberDto) {
         Member member = memberService.joinMember(memberDto.getId(), memberDto.getPassword());
-        return authService.createToken(member.getMemberId());
+        return new TokenResponse(authService.createToken(member.getMemberId()));
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody MemberDto memberDto) {
+    public TokenResponse login(@RequestBody @Valid MemberDto memberDto) {
         Member member = memberService.login(memberDto.getId(), memberDto.getPassword());
-        return authService.createToken(member.getMemberId());
+        return new TokenResponse(authService.createToken(member.getMemberId()));
     }
+
+
 }

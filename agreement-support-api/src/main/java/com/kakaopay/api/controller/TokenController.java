@@ -16,11 +16,11 @@ public class TokenController {
     private final AuthService authService;
 
     @PostMapping("/v1/token/refresh")
-    public String refreshToken(@RequestHeader(value = "Authorization") String value) {
+    public TokenResponse refreshToken(@RequestHeader(value = "Authorization") String value) {
         String[] values = Optional.ofNullable(StringUtils.split(value, "Bearer")).orElse(new String[0]);
         if (StringUtils.hasText(values[1])) {
-            return authService.refreshToken(values[1]);
+            return new TokenResponse(authService.refreshToken(values[1]));
         }
-        return null;
+        return new TokenResponse();
     }
 }

@@ -17,12 +17,12 @@ Content-Type: application/json
 
 ###
 POST http://localhost:5000/v1/token/refresh
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0ODYyNSwiaWF0IjoxNTc3MzQ2ODI1LCJtZW1iZXJJZCI6IkdVRVNUIn0.ZtTskRpOCkg8YyfHsPPoQ3IAXEKoulQl0roEPu_C4AY
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0OTI0NCwiaWF0IjoxNTc3MzQ3NDQ0LCJtZW1iZXJJZCI6InRlc3QifQ.R18KIq6gDr2ZrFvb6JFMEJQtH6liUnH0YhSNF1aZmcI
 
 ###
 GET http://localhost:5000/v1/supports/rate
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0Njg2NywiaWF0IjoxNTc3MzQ1MDY3LCJtZW1iZXJJZCI6InRlc3QifQ.7pDIDAaEwKlB5bIT6FBlQyAYk5o3_L2E602t34tUJxs
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0OTI0NCwiaWF0IjoxNTc3MzQ3NDQ0LCJtZW1iZXJJZCI6InRlc3QifQ.R18KIq6gDr2ZrFvb6JFMEJQtH6liUnH0YhSNF1aZmcI
 
 
 
@@ -32,13 +32,14 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3Bhe
 ###
 GET localhost:5000/v1/supports/limit?size=3
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0ODM5NywiaWF0IjoxNTc3MzQ2NTk3LCJtZW1iZXJJZCI6InRlc3QifQ.Nx6a0ET3qWQtvKHwZCIW3IR0_pPg1XH5yqHTsDR5Nvg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0OTI0NCwiaWF0IjoxNTc3MzQ3NDQ0LCJtZW1iZXJJZCI6InRlc3QifQ.R18KIq6gDr2ZrFvb6JFMEJQtH6liUnH0YhSNF1aZmcI
 
 
 
 ###
 PUT localhost:5000/v1/supports
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM1MDM2MywiaWF0IjoxNTc3MzQ4NTYzLCJtZW1iZXJJZCI6InRlc3QifQ.jyuJ0tVRB5gAXSpRdKxBmd9235CnRazHfv8GqHJmVtM
 
 {
   "region": "강릉시",
@@ -59,6 +60,7 @@ Accept: application/json
 ###
 POST localhost:5000/v1/supports
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM1MDM2MywiaWF0IjoxNTc3MzQ4NTYzLCJtZW1iZXJJZCI6InRlc3QifQ.jyuJ0tVRB5gAXSpRdKxBmd9235CnRazHfv8GqHJmVtM
 
 {
   "region": "강릉시",
