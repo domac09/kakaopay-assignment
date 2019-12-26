@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -117,13 +116,13 @@ class AgreementSupportServiceTest {
 
         List<SupportResponse> supportResponses = agreementSupportService.search("횡성군");
 
-        List<SupportResponse> expectedResponses = Collections.singletonList(new Gson().fromJson("{\"region\":\"횡성군\",\"target\":\"신의 선택을 받은 자\",\"limit\":\"1,000 이내\",\"rate\":\"4.0%~6.33%\",\"usage\":\"운전 및 시설\",\"institute\":\"횡성군\",\"mgmt\":\"원주지점\",\"reception\":\"신이 지정한 영업점\"}", SupportResponse.class));
+        SupportResponse expectedResponse = new Gson().fromJson("{\"region\":\"횡성군\",\"target\":\"신의 선택을 받은 자\",\"limit\":\"1,000 이내\",\"rate\":\"4.0%~6.33%\",\"usage\":\"운전 및 시설\",\"institute\":\"횡성군\",\"mgmt\":\"원주지점\",\"reception\":\"신이 지정한 영업점\"}", SupportResponse.class);
 
         assertAll("update values test", () -> {
-            assertEquals(expectedResponses.get(0).getTarget(), supportResponses.get(0).getTarget());
-            assertEquals(expectedResponses.get(0).getUsage(), supportResponses.get(0).getUsage());
-            assertEquals(expectedResponses.get(0).getReception(), supportResponses.get(0).getReception());
-            assertEquals(expectedResponses.get(0).getLimit(), supportResponses.get(0).getLimit());
+            assertEquals(expectedResponse.getTarget(), supportResponses.get(0).getTarget());
+            assertEquals(expectedResponse.getUsage(), supportResponses.get(0).getUsage());
+            assertEquals(expectedResponse.getReception(), supportResponses.get(0).getReception());
+            assertEquals(expectedResponse.getLimit(), supportResponses.get(0).getLimit());
         });
     }
 
@@ -137,10 +136,8 @@ class AgreementSupportServiceTest {
 
         List<String> limitAmountOrderByDesc = agreementSupportService.findByLimitAmountOrderByDesc(3);
 
-        List<String> expectedList = Arrays.asList("거제시", "횡성군", "광명시");
-
         assertThat(limitAmountOrderByDesc.size(), is(3));
-        assertThat(expectedList, is(limitAmountOrderByDesc));
+        assertThat(Arrays.asList("거제시", "횡성군", "광명시"), is(limitAmountOrderByDesc));
     }
 
     @Test
@@ -150,8 +147,6 @@ class AgreementSupportServiceTest {
 
         List<String> bySuggestedInstitutionSmallestRate = agreementSupportService.findBySuggestedInstitutionSmallestRate();
 
-        List<String> expectedList = Arrays.asList("광명시", "거제시, 경남신용보증재단");
-
-        assertThat(expectedList, is(bySuggestedInstitutionSmallestRate));
+        assertThat(Arrays.asList("광명시", "거제시, 경남신용보증재단"), is(bySuggestedInstitutionSmallestRate));
     }
 }

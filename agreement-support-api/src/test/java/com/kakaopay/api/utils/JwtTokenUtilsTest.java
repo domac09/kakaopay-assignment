@@ -8,19 +8,21 @@ import static org.hamcrest.Matchers.is;
 
 
 class JwtTokenUtilsTest {
+    private static final String SECRET_KEY = "secretKey";
 
     @Test
     @DisplayName("토큰을 생성해본다.")
     void createToken() {
-        String token = JwtTokenUtils.createToken("secretKey", "memberId");
+        
+        String token = JwtTokenUtils.createToken(SECRET_KEY, "memberId");
         System.out.println("token = " + token);
     }
 
     @Test
     @DisplayName("토큰을 생성 후 verify 통과한다.")
     void verifyToken() {
-        String token = JwtTokenUtils.createToken("secretKey", "memberId");
-        boolean verifyToken = JwtTokenUtils.verifyToken("secretKey", token);
+        String token = JwtTokenUtils.createToken(SECRET_KEY, "memberId");
+        boolean verifyToken = JwtTokenUtils.verifyToken(SECRET_KEY, token);
 
         assertThat(verifyToken, is(true));
     }
@@ -28,8 +30,8 @@ class JwtTokenUtilsTest {
     @Test
     @DisplayName("expired 토큰 verify 실패한다.")
     void verifyTokenFail() {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzI2NzU1OCwiaWF0IjoxNTc3MjY1NzU4LCJtZW1iZXJJZCI6Im1lbWJlcklkIn0.3N0jp4-T7smBu5JWGWVKr1EcSkyFmtQRf_TT5bGYF1s";
-        boolean verifyToken = JwtTokenUtils.verifyToken("secretKey", token);
+        String expiredToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzI2NzU1OCwiaWF0IjoxNTc3MjY1NzU4LCJtZW1iZXJJZCI6Im1lbWJlcklkIn0.3N0jp4-T7smBu5JWGWVKr1EcSkyFmtQRf_TT5bGYF1s";
+        boolean verifyToken = JwtTokenUtils.verifyToken(SECRET_KEY, expiredToken);
 
         assertThat(verifyToken, is(false));
     }
@@ -37,7 +39,7 @@ class JwtTokenUtilsTest {
     @Test
     @DisplayName("토큰을 decode 한다.")
     void decode() {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzI2NzU1OCwiaWF0IjoxNTc3MjY1NzU4LCJtZW1iZXJJZCI6Im1lbWJlcklkIn0.3N0jp4-T7smBu5JWGWVKr1EcSkyFmtQRf_TT5bGYF1s";
+        String token = JwtTokenUtils.createToken(SECRET_KEY, "memberId");
         DecodedToken decodedToken = JwtTokenUtils.decodeToken(token);
 
         assertThat(decodedToken.getIssuer(), is("kakaopay"));
