@@ -3,6 +3,7 @@ package com.kakaopay.api.service.user;
 import com.kakaopay.api.domain.member.Member;
 import com.kakaopay.api.domain.member.MemberRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("회원 가입에 성공한다.")
     void joinMember() {
         Member member = memberService.joinMember("memberId", "password");
 
@@ -37,6 +39,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("로그인 실패 시 GUEST라는 id를 리턴한다.")
     void loginFail() {
         memberService.joinMember("memberId", "password");
 
@@ -46,6 +49,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("로그인 성공한다.")
     void loginSuccess() {
         memberService.joinMember("memberId", "password");
 
