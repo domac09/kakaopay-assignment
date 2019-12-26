@@ -19,6 +19,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtTokenUtils {
     private static final String ISSUER = "kakaopay";
+    private static final int TOKEN_EXPIRED_MINUTES = 30;
 
     public static String createToken(String secretKey, String memberId) {
         try {
@@ -75,6 +76,7 @@ public class JwtTokenUtils {
      * ttl : 30 minutes
      */
     private static Date getExpiredAt() {
-        return Date.from(LocalDateTime.now().plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant());
+
+        return Date.from(LocalDateTime.now().plusMinutes(TOKEN_EXPIRED_MINUTES).atZone(ZoneId.systemDefault()).toInstant());
     }
 }

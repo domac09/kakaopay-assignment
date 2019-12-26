@@ -48,7 +48,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
 
             if (isNotTokenVerified(token)) {
-                responseUnAuthorized(response);
+                responseTokenExpired(response);
                 return;
             }
         }
@@ -87,5 +87,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write("{\"error\": \"unauthorized\"}");
+    }
+
+    private void responseTokenExpired(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write("{\"error\": \"token_expired\"}");
     }
 }

@@ -22,7 +22,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3Bhe
 ###
 GET http://localhost:5000/v1/supports/rate
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0OTI0NCwiaWF0IjoxNTc3MzQ3NDQ0LCJtZW1iZXJJZCI6InRlc3QifQ.R18KIq6gDr2ZrFvb6JFMEJQtH6liUnH0YhSNF1aZmcI
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0OTc4MywiaWF0IjoxNTc3MzQ5NzIzLCJtZW1iZXJJZCI6InRlc3QifQ.miNuU5KXyGM_k3GVHWjHbkGNPvTI-zrR8ZhXbIYRhkk
 
 
 

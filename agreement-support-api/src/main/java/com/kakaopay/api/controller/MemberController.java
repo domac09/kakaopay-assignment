@@ -28,6 +28,11 @@ public class MemberController {
     @PostMapping("/login")
     public TokenResponse login(@RequestBody @Valid MemberDto memberDto) {
         Member member = memberService.login(memberDto.getId(), memberDto.getPassword());
+
+        if (member.getMemberId().equals("GUEST")) {
+            return new TokenResponse("", "this id is not valid.");
+        }
+
         return new TokenResponse(authService.createToken(member.getMemberId()));
     }
 
