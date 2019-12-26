@@ -1,9 +1,40 @@
+POST http://localhost:5000/v1/members
+Content-Type: application/json
+
+{
+  "id": "test",
+  "password": "test1234"
+}
+
+###
+POST http://localhost:5000/v1/members/login
+Content-Type: application/json
+
+{
+  "id": "test",
+  "password": "test1234"
+}
+
+###
+POST http://localhost:5000/v1/token/refresh
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0ODYyNSwiaWF0IjoxNTc3MzQ2ODI1LCJtZW1iZXJJZCI6IkdVRVNUIn0.ZtTskRpOCkg8YyfHsPPoQ3IAXEKoulQl0roEPu_C4AY
+
+###
 GET http://localhost:5000/v1/supports/rate
 Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0Njg2NywiaWF0IjoxNTc3MzQ1MDY3LCJtZW1iZXJJZCI6InRlc3QifQ.7pDIDAaEwKlB5bIT6FBlQyAYk5o3_L2E602t34tUJxs
+
+
+
+
+
 
 ###
 GET localhost:5000/v1/supports/limit?size=3
 Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0ODM5NywiaWF0IjoxNTc3MzQ2NTk3LCJtZW1iZXJJZCI6InRlc3QifQ.Nx6a0ET3qWQtvKHwZCIW3IR0_pPg1XH5yqHTsDR5Nvg
+
+
 
 ###
 PUT localhost:5000/v1/supports

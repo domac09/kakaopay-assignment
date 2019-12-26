@@ -23,7 +23,7 @@ public class AuthService {
         return JwtTokenUtils.decodeToken(token);
     }
 
-    public String issueToken(String token) {
+    public String refreshToken(String token) {
         DecodedToken decodedToken = decodedToken(token);
 
         return createToken(decodedToken.getMemberId());

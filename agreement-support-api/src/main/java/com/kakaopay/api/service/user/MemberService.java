@@ -21,7 +21,6 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    //login
     public Member login(String memberId, String password) {
         return memberRepository.findMemberByMemberIdAndPassword(memberId, SHA256Utils.encrypt(password))
                 .orElse(Member.builder().memberId("GUEST").build());
