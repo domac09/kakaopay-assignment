@@ -30,8 +30,12 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원 가입에 성공한다.")
     void joinMember() {
+        //given
+
+        //when
         Member member = memberService.joinMember("memberId", "password");
 
+        //then
         assertAll("member value check..", ()->{
             assertEquals("memberId", member.getMemberId());
             assertEquals("5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", member.getPassword());
@@ -41,20 +45,26 @@ class MemberServiceTest {
     @Test
     @DisplayName("로그인 실패 시 GUEST라는 id를 리턴한다.")
     void loginFail() {
+        //given
         memberService.joinMember("memberId", "password");
 
+        //when
         Member login = memberService.login("test", "test");
 
+        //then
         assertThat(login.getMemberId(), is("GUEST"));
     }
 
     @Test
     @DisplayName("로그인 성공한다.")
     void loginSuccess() {
+        //given
         memberService.joinMember("memberId", "password");
 
+        //when
         Member login = memberService.login("memberId", "password");
 
+        //then
         assertThat(login.getMemberId(), is("memberId"));
     }
 }

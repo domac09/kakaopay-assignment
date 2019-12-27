@@ -40,36 +40,45 @@ class AuthenticationFilterTest {
     @Test
     @DisplayName("jwt token 인증을 정상 통과한다.")
     void filterOk() throws ServletException, IOException {
+        //given
         String token = createToken("memberId");
 
         httpServletRequest.addHeader("Authorization", "Bearer " + token);
         httpServletRequest.setRequestURI(TEST_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(200));
     }
 
     @Test
     @DisplayName("EXCEPT_URIS에 포함 된 경우 인증을 통과한다.")
     void authenticationExceptUri() throws ServletException, IOException {
+        //given
         httpServletRequest.setRequestURI(EXCEPT_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(200));
     }
 
     @Test
     @DisplayName("[unauthorized] token의 memberId가 GUEST 일 때 인증 실패된다.")
     void invalidAuthKeyByMemberId() throws ServletException, IOException {
+        //given
         String token = createToken("GUEST");
 
         httpServletRequest.addHeader("Authorization", "Bearer " + token);
         httpServletRequest.setRequestURI(TEST_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(401));
         assertThat(httpServletResponse.getContentAsString(), is("{\"error\": \"unauthorized\"}"));
     }
@@ -77,10 +86,13 @@ class AuthenticationFilterTest {
     @Test
     @DisplayName("[unauthorized] header에 Authorization 항목이 없을 때 인증 실패된다.")
     void invalidAuthKeyHeaderEmpty() throws ServletException, IOException {
+        //given
         httpServletRequest.setRequestURI(TEST_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(401));
         assertThat(httpServletResponse.getContentAsString(), is("{\"error\": \"unauthorized\"}"));
     }
@@ -88,13 +100,16 @@ class AuthenticationFilterTest {
     @Test
     @DisplayName("[unauthorized] token format이 이상한 경우 (Bearer가 빠진 경우) 인증이 실패된다.")
     void invalidAuthKeyTokenFormat() throws ServletException, IOException {
+        //given
         String token = createToken("memberId");
 
         httpServletRequest.addHeader("Authorization", token);
         httpServletRequest.setRequestURI(TEST_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(401));
         assertThat(httpServletResponse.getContentAsString(), is("{\"error\": \"unauthorized\"}"));
     }
@@ -102,13 +117,16 @@ class AuthenticationFilterTest {
     @Test
     @DisplayName("[unauthorized] token이 verify 되지 않으면 인증이 실패된다.")
     void invalidAuthKeyTokenAbnormal() throws ServletException, IOException {
+        //given
         String token = "TEST";
 
         httpServletRequest.addHeader("Authorization", "Bearer " + token);
         httpServletRequest.setRequestURI(TEST_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(401));
         assertThat(httpServletResponse.getContentAsString(), is("{\"error\": \"unauthorized\"}"));
     }
@@ -116,10 +134,13 @@ class AuthenticationFilterTest {
     @Test
     @DisplayName("[unauthorized] 명시되지 않은 url은 인증이 실패된다.")
     void unknownUri() throws ServletException, IOException {
+        //given
         httpServletRequest.setRequestURI("/v1/test");
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(401));
         assertThat(httpServletResponse.getContentAsString(), is("{\"error\": \"unauthorized\"}"));
     }
@@ -127,13 +148,16 @@ class AuthenticationFilterTest {
     @Test
     @DisplayName("[expired] token이 만료된 경우 인증이 실패된다.")
     void tokenExpired() throws ServletException, IOException {
+        //given
         String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthb3BheSIsImV4cCI6MTU3NzM0OTc4MywiaWF0IjoxNTc3MzQ5NzIzLCJtZW1iZXJJZCI6InRlc3QifQ.miNuU5KXyGM_k3GVHWjHbkGNPvTI-zrR8ZhXbIYRhkk";
 
         httpServletRequest.addHeader("Authorization", "Bearer " + token);
         httpServletRequest.setRequestURI(TEST_URI);
 
+        //when
         authenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 
+        //then
         assertThat(httpServletResponse.getStatus(), is(401));
         assertThat(httpServletResponse.getContentAsString(), is("{\"error\": \"token_expired\"}"));
     }

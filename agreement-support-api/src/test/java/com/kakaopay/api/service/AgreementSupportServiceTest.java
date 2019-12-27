@@ -52,8 +52,11 @@ class AgreementSupportServiceTest {
     @Test
     @DisplayName("중소기업은행 지자체 협약 지원 정보 데이터를 입력한다.")
     void insert() {
+        //given
+        //when
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
+        //then
         List<Support> all = supportRepository.findAll();
 
         assertThat(all.size(), is(4));
@@ -80,10 +83,13 @@ class AgreementSupportServiceTest {
     @Test
     @DisplayName("지자체명을 입력 받아 해당 지자체의 지원정보를 출력한다.")
     void findByRegion() {
+        //given
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
+        //when
         List<SupportResponse> supportResponses = agreementSupportService.search("횡성군");
 
+        //then
         assertThat(supportResponses.size(), is(1));
         assertAll("value assertion..",
                 () -> {
@@ -108,12 +114,15 @@ class AgreementSupportServiceTest {
     @Test
     @DisplayName("중소기업은행 지자체 협약 지원 정보 데이터를 수정한다.")
     void update() {
+        //given
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
         SupportRequest supportRequest = new Gson().fromJson("{ \"region\": \"횡성군\", \"target\": \"신의 선택을 받은 자\", \"usage\": \"운전 및 시설\", \"limit\" : \"1000\", \"maximumRate\": \"6.33\", \"minimumRate\": \"4.00\",\"institute\": \"횡성군\", \"mgmt\": \"원주지점\", \"reception\": \"신이 지정한 영업점\" }", SupportRequest.class);
 
+        //when
         agreementSupportService.update(supportRequest);
 
+        //then
         List<SupportResponse> supportResponses = agreementSupportService.search("횡성군");
 
         SupportResponse expectedResponse = new Gson().fromJson("{\"region\":\"횡성군\",\"target\":\"신의 선택을 받은 자\",\"limit\":\"1,000 이내\",\"rate\":\"4.0%~6.33%\",\"usage\":\"운전 및 시설\",\"institute\":\"횡성군\",\"mgmt\":\"원주지점\",\"reception\":\"신이 지정한 영업점\"}", SupportResponse.class);
@@ -132,10 +141,13 @@ class AgreementSupportServiceTest {
     @Test
     @DisplayName("지원금액으로 내림차순 정렬(지원금액이 동일하면 이차보전 평균 비율이 적은 순서)하여 특정 개수만 출력한다.")
     void findByLimitAmountOrderByDesc() {
+        //given
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
+        //when
         List<String> limitAmountOrderByDesc = agreementSupportService.findByLimitAmountOrderByDesc(3);
 
+        //then
         assertThat(limitAmountOrderByDesc.size(), is(3));
         assertThat(Arrays.asList("거제시", "횡성군", "광명시"), is(limitAmountOrderByDesc));
     }
@@ -143,10 +155,13 @@ class AgreementSupportServiceTest {
     @Test
     @DisplayName("이차보전 컬럼에서 보전 비율이 가장 작은 추천 기관명을 출력한다.")
     void findBySuggestedInstitutionSmallestRate() {
+        //given
         supportRequestStream.forEach(supportRequest -> agreementSupportService.insert(supportRequest));
 
+        //when
         List<String> bySuggestedInstitutionSmallestRate = agreementSupportService.findBySuggestedInstitutionSmallestRate();
 
+        //then
         assertThat(Arrays.asList("광명시", "거제시, 경남신용보증재단"), is(bySuggestedInstitutionSmallestRate));
     }
 }
