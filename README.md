@@ -9,9 +9,8 @@
 ## How to solve an assignment
 - Entity
 	- Region(지역), Support (지자체 협약 지원 정보)의 연관관계를 OneToOne으로 설정.
-			- 이후 OneToMany의 가능성을 염두에 두긴 해야 하나 현재만 봐서는 OneToOne으로 설정.
 	- Region의 지역코드는 임시로 지정.
-	- 이차보전의 경우 MIN, MAX 항목을 나누어 관리.
+	- 이차보전의 경우 1%~2%와 같이 범위 산정되어 있는 부분 때문에 MIN, MAX 항목을 나누어 관리.
 		- 평균값을 구하기 쉽게 하려면 나누는게 좋다고 판단.
 	- JpaAuditing 적용하여 createDate, modifiedDate를 관리.
 - Authentication
