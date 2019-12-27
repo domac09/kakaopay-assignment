@@ -19,8 +19,8 @@ import java.util.Optional;
 @Slf4j
 public class AuthenticationFilter extends OncePerRequestFilter {
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
-    private static final List<String> PERMIT_URIS = Arrays.asList("/v1/supports/**", "/v1/token/**");
-    private static final List<String> EXCEPT_URIS = Arrays.asList("/v1/members/**");
+    private static final List<String> PERMIT_URIS = Arrays.asList("/v1/supports/**");
+    private static final List<String> EXCEPT_URIS = Arrays.asList("/v1/members/**", "/v1/token/**");
 
     private String secretKey;
 

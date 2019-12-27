@@ -15,10 +15,6 @@ public class AuthService {
         return JwtTokenUtils.createToken(secretKey, memberId);
     }
 
-    public boolean verifyToken(String token){
-        return JwtTokenUtils.verifyToken(secretKey, token);
-    }
-
     public DecodedToken decodedToken(String token){
         return JwtTokenUtils.decodeToken(token);
     }
