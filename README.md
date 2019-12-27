@@ -19,7 +19,7 @@
 - DTO
 	- 외부로 보여지는 response view는 DTO를 이용하여 과제 설명의 출력예제와 동일하게 표현
 
-## build & run
+## Build & run
 - Git clone and move kakaopay-assignment directory.
 ```
 $ git clone https://github.com/domac09/kakaopay-assignment.git
@@ -33,3 +33,161 @@ $ cd kakaopay-assignment
 - Run 
 
 `$ java -jar agreement-support-api/build/libs/agreement-support-api.jar`
+
+## API List
+
+1.회원가입
+
+```
+request:
+curl -X POST \
+  http://localhost:5000/v1/members \
+  -d '{
+        "id": "test",
+        "password": "test1234"
+      }'
+
+
+response:
+{
+    "token": "{token}",
+    "message": "OK"
+}
+```
+
+2.로그인
+
+```
+request:
+curl -X POST \
+  http://localhost:000/v1/members/login \
+  -d '{
+        "id": "test",
+        "password": "test1234"
+      }'
+
+response: 
+{
+    "token": "{token}",
+    "message": "OK"
+}
+```
+
+3.토큰 refresh
+
+```
+request:
+curl -X POST \
+  http://localhost:5000/v1/token/refresh \
+  -H 'Authorization: Bearer {token}'
+
+response:
+{
+    "token": "{token}",
+    "message": "OK"
+}
+```
+
+4.지자체 협약 지원 데이터 입력
+
+```
+request:
+curl -X POST \
+  http://localhost:5000/v1/supports \
+  -H 'Authorization: Bearer {token}' \
+  -d '{
+        "region": "강릉시",
+        "target": "강릉시 소재 중소기업으로서 강릉시장이 추천한 자",
+        "usage": "운전",
+        "limit": "0",
+        "maximumRate": "5.00",
+        "minimumRate": "3.00",
+        "institute": "강릉시",
+        "mgmt": "강릉지점",
+        "reception": "강릉시 소재 영업점"
+      }'
+
+response:
+HTTP/1.1 200 
+Content-Length: 0
+
+<Response body is empty>
+```
+
+5.지자체 협약 지원 데이터 조회
+
+```
+request:
+curl -X GET \
+  http://localhost:5000/v1/supports?region=경기도 \
+  -H 'Authorization: Bearer {token}'
+
+reseponse:
+[
+  {
+    "region": "경기도",
+    "target": "경기도 소재 중소기업으로서 경기도지사가 추천한 자",
+    "limit": "30,000,000,000 이내",
+    "rate": "0.3%~2.0%",
+    "usage": "운전 및 시설",
+    "institute": "경기신용보증재단",
+    "mgmt": "경수지역본부",
+    "reception": "전 영업점"
+  }
+]
+```
+
+6.지자체 협약 지원 데이터 수정
+
+```
+request:
+curl -X POST \
+  http://localhost:5000/v1/supports \
+  -H 'Authorization: Bearer {token}' \
+  -d '{
+          "region": "경기도",
+          "target": "경기도 소재 중소기업으로서 경기도지사가 추천한 자",
+          "limit": "30,000,000,000 이내",
+          "rate": "0.3%~2.0%",
+          "usage": "운전 및 시설",
+          "institute": "경기신용보증재단",
+          "mgmt": "경수지역본부",
+          "reception": "전 영업점"
+        }'
+
+response:
+HTTP/1.1 200 
+Content-Length: 0
+
+<Response body is empty>
+```
+
+7.지원금액으로 내림차순 정렬(지원금액이 동일하면 이차보전 평균 비율이 적은 순서) size 만큼 조회 
+
+```
+request:
+curl -X POST \
+  http://localhost:5000/v1/supports/limit?size=3 \
+  -H 'Authorization: Bearer {token}'
+
+response:
+[
+  "경기도",
+  "제주도",
+  "국토교통부"
+]
+```
+
+8.보전 비율이 가장 작은 추천 기관명 조회 
+
+```
+request:
+curl -X POST \
+  http://localhost:5000/v1/supports/rate \
+  -H 'Authorization: Bearer {token}' 
+
+response:
+[
+  "안양상공회의소"
+]
+```

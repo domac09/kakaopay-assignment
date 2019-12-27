@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AgreementSupportBatchApplication {
     public static void main(String[] args) {
         int exit = SpringApplication.exit(SpringApplication.run(AgreementSupportBatchApplication.class, args));
+        log.info("exit={}", exit);
         System.exit(exit);
     }
 }
