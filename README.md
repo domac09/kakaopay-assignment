@@ -35,6 +35,12 @@ $ cd kakaopay-assignment
 `$ java -jar agreement-support-api/build/libs/agreement-support-api.jar`
 
 ## API List
+0.인증
+
+```
+{"error": "unauthorized"} // 토큰인증 실패했을 경우.
+{"error": "token_expired"} // 토큰이 만료되었을 경우, ttl은 30분
+```
 
 1.회원가입
 
