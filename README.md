@@ -9,7 +9,6 @@
 ## How to solve an assignment
 - Entity
 	- Region(지역), Support (지자체 협약 지원 정보)의 연관관계를 OneToOne으로 설정.
-	- Region의 지역코드는 임시로 지정.
 	- 이차보전의 경우 1%~2%와 같이 범위 산정되어 있는 부분 때문에 MIN, MAX 항목을 나누어 관리.
 		- 평균값을 구하기 쉽게 하려면 나누는게 좋다고 판단.
 	- JpaAuditing 적용하여 createDate, modifiedDate를 관리.
@@ -18,6 +17,9 @@
 	- OncePerRequestFilter를 상속하여 인증 프로세스를 추가한 클래스를 두고 filter로 등록.
 - DTO
 	- 외부로 보여지는 response view는 DTO를 이용하여 과제 설명의 출력예제와 동일하게 표현
+- Cache by `EhCache`
+    - findAll을 해야 하는 로직에는 데이터의 양이 많을 경우 상당히 부담이 되기 때문에 chache를 통하여 부담을 감소. 
+    - data update event가 발생 시, cache evict가 되어 cache data 동기화 됨.
 
 ## Build & run
 - Git clone and move kakaopay-assignment directory.
@@ -147,7 +149,7 @@ reseponse:
 
 ```
 request:
-curl -X POST \
+curl -X PUT \
   http://localhost:5000/v1/supports \
   -H 'Authorization: Bearer {token}' \
   -d '{
@@ -172,7 +174,7 @@ Content-Length: 0
 
 ```
 request:
-curl -X POST \
+curl -X GET \
   http://localhost:5000/v1/supports/limit?size=3 \
   -H 'Authorization: Bearer {token}'
 
@@ -188,7 +190,7 @@ response:
 
 ```
 request:
-curl -X POST \
+curl -X GET \
   http://localhost:5000/v1/supports/rate \
   -H 'Authorization: Bearer {token}' 
 

@@ -1,4 +1,3 @@
 rootProject.name = 'kakaopay-assignment'
 include 'agreement-support-api'
-include 'agreement-support-batch'
 

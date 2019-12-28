@@ -17,7 +17,7 @@ buildscript {
     }
 }
 
-def javaProjects = [project(':agreement-support-api'), project(':agreement-support-batch')]
+def javaProjects = [project(':agreement-support-api')]
 
 configure(javaProjects) {
     apply plugin: 'java'

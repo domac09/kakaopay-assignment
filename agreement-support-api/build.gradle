@@ -8,5 +8,8 @@ jar {
 
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-cache')
     implementation('org.springframework.data:spring-data-envers')
+    implementation('net.sf.ehcache:ehcache:2.10.6')
+
 }

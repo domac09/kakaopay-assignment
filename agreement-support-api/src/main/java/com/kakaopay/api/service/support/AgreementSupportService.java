@@ -1,10 +1,13 @@
 package com.kakaopay.api.service.support;
 
-import com.kakaopay.api.domain.support.Region;
-import com.kakaopay.api.domain.support.RegionRepository;
+import com.kakaopay.api.domain.region.Region;
+import com.kakaopay.api.domain.region.RegionRepository;
 import com.kakaopay.api.domain.support.Support;
 import com.kakaopay.api.domain.support.SupportRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,7 +18,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class AgreementSupportService {
 
@@ -35,13 +37,16 @@ public class AgreementSupportService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    @CacheEvict(cacheNames = {"LimitAmountCacheData", "RateCacheData"}, allEntries = true)
     public void update(SupportRequest request) {
         List<Support> supports = supportRepository.findByList(request.getRegion());
         supports.forEach(support -> support.update(SupportRequest.toEntity(request, support.getRegion())));
     }
 
+    @Cacheable(value="LimitAmountCacheData")
     public List<String> findByLimitAmountOrderByDesc(int size) {
-        return supportRepository.findAll().stream()
+        return getAll().stream()
                 .sorted(Comparator.comparingLong(Support::getLimitAmount)
                         .reversed()
                         .thenComparing((o1, o2) -> {
@@ -55,8 +60,13 @@ public class AgreementSupportService {
                 .collect(Collectors.toList());
     }
 
+    public List<Support> getAll() {
+        return supportRepository.findAll();
+    }
+
+    @Cacheable(value="RateCacheData")
     public List<String> findBySuggestedInstitutionSmallestRate() {
-        Map<Double, List<Support>> collect = supportRepository.findAll().stream()
+        Map<Double, List<Support>> collect = getAll().stream()
                 .collect(Collectors.groupingBy(this::getAverageRate))
                 .entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

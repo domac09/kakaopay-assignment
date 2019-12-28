@@ -1,4 +1,4 @@
-package com.kakaopay.api.domain.support;
+package com.kakaopay.api.domain.region;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
