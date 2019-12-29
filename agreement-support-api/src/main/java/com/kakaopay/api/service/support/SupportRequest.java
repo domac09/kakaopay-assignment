@@ -1,7 +1,7 @@
 package com.kakaopay.api.service.support;
 
-import com.kakaopay.api.domain.support.Rate;
 import com.kakaopay.api.domain.region.Region;
+import com.kakaopay.api.domain.support.Rate;
 import com.kakaopay.api.domain.support.Support;
 import com.kakaopay.api.domain.support.UseType;
 import lombok.Builder;
