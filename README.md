@@ -19,7 +19,7 @@
 - DTO
 	- 외부로 보여지는 response view는 DTO를 이용하여 과제 설명의 출력예제와 동일하게 표현
 - Cache by `EhCache`
-    - findAll을 해야 하는 로직에는 데이터의 양이 많을 경우 상당히 부담이 되기 때문에 chache를 통하여 부담을 감소. 
+    - findAll()을 해야 하는 로직에는 데이터의 양이 많을 경우 상당히 부담이 되기 때문에 cache를 통하여 부담을 감소. 
     - data update event가 발생 시, cache evict가 되어 cache data 동기화 됨.
 
 ## Build & run
